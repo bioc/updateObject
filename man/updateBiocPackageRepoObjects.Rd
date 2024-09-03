@@ -133,7 +133,7 @@ updateBiocPackageRepoObjects(repopath, branch="RELEASE_3_13",
 ## frozen in October 2021. The above examples are for illustrative
 ## purpose only. A more realistic situation would be to use
 ## updateBiocPackageRepoObjects() on the development version (i.e.
-## the master branch) of a package that you maintain, and to push the
+## the devel branch) of a package that you maintain, and to push the
 ## changes by calling the function with 'push=TRUE'.
 
 ## ---------------------------------------------------------------------
@@ -257,7 +257,7 @@ FILTER <- "\\bDataFrame\\b"
 system.time(
     codes <- updateAllBiocPackageRepoObjects(ALL_REPOS,
                                              skipped_repos=SKIPPED_REPOS,
-                                             branch="master",
+                                             branch="devel",
                                              filter=FILTER,
                                              push=TRUE)
 )

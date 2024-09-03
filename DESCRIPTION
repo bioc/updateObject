@@ -7,14 +7,14 @@ Description: A set of tools built around updateObject() to work with old
 biocViews: Infrastructure, DataRepresentation
 URL: https://bioconductor.org/packages/updateObject
 BugReports: https://github.com/Bioconductor/updateObject/issues
-Version: 1.9.0
+Version: 1.9.1
 License: Artistic-2.0
 Encoding: UTF-8
 Authors@R: person("Hervé", "Pagès", role=c("aut", "cre"), email="hpages.on.github@gmail.com")
-Depends: R (>= 4.2.0), methods, BiocGenerics (>= 0.47.1), S4Vectors
+Depends: R (>= 4.2.0), methods, BiocGenerics (>= 0.51.1), S4Vectors
 Imports: utils, digest
 Suggests: GenomicRanges, SummarizedExperiment, InteractionSet,
-	SingleCellExperiment, MultiAssayExperiment, TimiRGeN,
+	SingleCellExperiment, MultiAssayExperiment, BiSeq,
 	testthat, knitr, rmarkdown, BiocStyle
 SystemRequirements: git
 VignetteBuilder: knitr

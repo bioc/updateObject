@@ -28,6 +28,12 @@ collect_rda_files <- function(dirpath=".", recursive=FALSE)
 
 .update_object <- function(x, filter=NULL)
 {
+    ## See BiocGenerics/R/updateObject.R in the BiocGenerics package for
+    ## the role of global option "updateObject.can.attach.packages".
+    old <- getOption("updateObject.can.attach.packages")
+    options(updateObject.can.attach.packages=TRUE)
+    on.exit(options(updateObject.can.attach.packages=old))
+
     message("updateObject(", class(x)[[1L]], ", check=FALSE).. ",
             appendLF=FALSE)
     if (is.null(filter)) {
@@ -70,12 +76,14 @@ update_rds_file <- function(filepath, filter=NULL, dry.run=FALSE)
     }
     message("ok; ", appendLF=FALSE)
     ## Do we still need this? Starting with BiocGenerics >= 0.47.1, the
-    ## updateObject() generic takes care of attaching the package where
-    ## class(x) is defined. However note that it only **tries**, and it
-    ## might silently fail. So only reason to keep the call to
-    ## attach_classdef_pkg() here is to get a hard failure if it fails,
-    ## which will happen if e.g. the package to attach is not installed.
-    BiocGenerics:::attach_classdef_pkg(class(x))
+    ## updateObject() generic defined in the BiocGenerics package takes
+    ## care of calling attach_classdef_and_updateobjdef_pkgs(). However
+    ## note that it only **tries**, and it might silently fail. So only
+    ## reason we might want to keep the call to
+    ## attach_classdef_and_updateobjdef_pkgs() here is to get a hard
+    ## failure if it fails, which will happen if e.g. the packages to
+    ## attach are not installed.
+    BiocGenerics:::attach_classdef_and_updateobjdef_pkgs(class(x))
     y <- try(.update_object(x, filter=filter), silent=TRUE)
     if (.is_try_error(y)) {
         message("returned an error ==> ",
@@ -123,12 +131,14 @@ update_rda_file <- function(filepath, filter=NULL, dry.run=FALSE)
         ## To prevent surprises further down we force evaluation now.
         suppressMessages(suppressWarnings(force(x)))
         ## Do we still need this? Starting with BiocGenerics >= 0.47.1, the
-        ## updateObject() generic takes care of attaching the package where
-        ## class(x) is defined. However note that it only **tries**, and it
-        ## might silently fail. So only reason to keep the call to
-        ## attach_classdef_pkg() here is to get a hard failure if it fails,
-        ## which will happen if e.g. the package to attach is not installed.
-        BiocGenerics:::attach_classdef_pkg(class(x))
+        ## updateObject() generic defined in the BiocGenerics package takes
+        ## care of calling attach_classdef_and_updateobjdef_pkgs(). However
+        ## note that it only **tries**, and it might silently fail. So only
+        ## reason we might want to keep the call to
+        ## attach_classdef_and_updateobjdef_pkgs() here is to get a hard
+        ## failure if it fails, which will happen if e.g. the packages to
+        ## attach are not installed.
+        BiocGenerics:::attach_classdef_and_updateobjdef_pkgs(class(x))
         y <- try(.update_object(x, filter=filter), silent=TRUE)
         if (.is_try_error(y)) {
             message("returned an error ==> ",
